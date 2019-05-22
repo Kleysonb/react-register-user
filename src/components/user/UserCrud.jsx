@@ -20,21 +20,9 @@ export default class UserCrud extends Component {
   state = { ...initialState }
   componentWillMount() {
     console.log("componentWillMount")
-    var data = [{
-      name: "Kleyson",
-      email: "Kleysonb@uft.edu.br",
-      id: 1
-    }
-      ,
-    {
-      name: "Kessia",
-      email: "Kess2ab@uft.edu.br",
-      id: 2
-    }]
-    this.setState({ list: data })
-    // axios(baseUrl).then(resp => {
-    //   this.setState({ list: resp.data })
-    // })
+    axios(baseUrl).then(resp => {
+      this.setState({ list: resp.data })
+    })
   }
 
   clear() {
@@ -47,11 +35,10 @@ export default class UserCrud extends Component {
     const user = this.state.user
     const method = user.id ? 'put' : 'post'
     const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
-    alert(`Salvar ${user.name} / ${user.email}`)
-    // axios[method](url, user).then(resp => {
-    //   const list = this.getUpdatedList(resp.data)
-    //   this.setState({ user: initialState.user, list })
-    // })
+    axios[method](url, user).then(resp => {
+      const list = this.getUpdatedList(resp.data)
+      this.setState({ user: initialState.user, list })
+    })
   }
 
   getUpdatedList(user, add = true) {
@@ -134,9 +121,9 @@ export default class UserCrud extends Component {
           <td>{user.name}</td>
           <td>{user.email}</td>
           <td>
-            <button className="btn btn-warning"
+            <button className="btn btn-primary"
               onClick={() => this.load(user)}>
-              <i className="fa fa-pencil"></i>
+              <i class="far fa-edit"></i>
             </button>
             <button className="btn btn-danger ml-2"
               onClick={() => this.remove(user)}>
